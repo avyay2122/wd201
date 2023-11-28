@@ -1,0 +1,88 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: aqua;
+}
+.container{
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 40px;
+}
+h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.box{
+    background-color: rgb(247, 198, 113);
+    width: 400px;
+    height: 400px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    border-radius: 7px;
+    border:2px solid black;
+}
+
+label{
+    height: 25px;
+    margin-left: 5px;
+    margin-right: 80px;
+    margin-bottom: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
+/* input{
+    height: 30px;
+    width: 180px;
+    margin-bottom: 30px;
+} */
+#name{
+    margin-left: 37px;
+}
+#email{
+    margin-left: 28px;
+}
+/* #dob{
+    margin-left: -21px;
+} */
+/* #check{
+    margin-left: 1px;
+} */
+
+#tc{
+   margin-left: 30px;
+   width: 15px;
+}
+button{
+    display: flex;
+    justify-content: center;
+    margin-left: 150px;
+    width: 100px;
+    background-color: rgb(102, 232, 102);
+    color: rgb(0, 0, 0);
+}
+#date{
+    margin-left: 160px;
+}
+
+td{
+    border-width: 0 1px 1px 0;
+    border-style: solid;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-color:black;
+}
+
+th{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    
+}
