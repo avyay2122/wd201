@@ -19,12 +19,13 @@ fs.readFile("project.html", (err, project) => {
   }
   projectContent = project;
 });
+
 fs.readFile("registration.html",(err,registration) => {
-  if(err){
-    throw err;
-  }
-  registrationContent = registration;
-})
+    if (err) {
+        throw err;
+    }
+    registrationContent = registration;
+});
 http.createServer((request, response) => {
     let url = request.url;
     response.writeHeader(200, { "Content-Type": "text/html" });
@@ -33,7 +34,7 @@ http.createServer((request, response) => {
         response.write(projectContent);
         response.end();
         break;
-      case "/registration":
+        case "/registration":
         response.write(registrationContent);
         response.end();
         break;
@@ -43,4 +44,4 @@ http.createServer((request, response) => {
         break;
     }
   })
-  . listen (args["port"])
+  .listen(args["port"]);
