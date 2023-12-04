@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const todoList = () => {
   let currentDate = new Date();
   let year = currentDate.getFullYear();
