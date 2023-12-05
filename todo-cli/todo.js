@@ -21,6 +21,7 @@ const todoList = () => {
   const markAsComplete = (index) => {
     all[index].completed = true;
   };
+  console.log("hi");
 
   const overdue = () => {
     // Write the date check condition here and return the array
