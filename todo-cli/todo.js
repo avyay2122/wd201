@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+
 const todoList = () => {
   let currentDate = new Date();
   let year = currentDate.getFullYear();
@@ -80,15 +81,16 @@ const todoList = () => {
 
   const toDisplayableList = (list) => {
     // Format the To-Do list here, and return the output string
+    
     // as per the format given above.
     return list
       .map((item) => {
         const check = item.completed ? "[x]" : "[ ]";
-        const date =
-          new Date(item.dueDate).toDateString() === new Date().toDateString()
-            ? ""
-            : ` ${formattedDate(new Date(item.dueDate))}`;
-        return `${check} ${item.title}`;
+          if( new Date(item.dueDate).toDateString() === new Date().toDateString()){
+            return `${check} ${item.title}`
+          }else{
+            return `${check} ${item.title}${date}`;
+          }
       })
       .join("\n");
   };
@@ -96,7 +98,7 @@ const todoList = () => {
   const formattedDate = (d) => {
     return d.toISOString().split("T")[0];
   };
-
+  toDisplayableList([{ completed: true, dueDate: "2023-12-15", title: "Hi to" }]);
   return {
     all,
     add,
@@ -107,5 +109,5 @@ const todoList = () => {
     toDisplayableList,
   };
 };
-
+todoList();
 module.exports = todoList;
