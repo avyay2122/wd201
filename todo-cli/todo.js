@@ -88,7 +88,7 @@ const todoList = () => {
           new Date(item.dueDate).toDateString() === new Date().toDateString()
             ? ""
             : ` ${formattedDate(new Date(item.dueDate))}`;
-        return `${check} ${item.title}${date}`;
+        return `${check} ${item.title}`;
       })
       .join("\n");
   };
