@@ -89,7 +89,7 @@ const todoList = () => {
           if( new Date(item.dueDate).toDateString() === new Date().toDateString()){
             return `${check} ${item.title}`
           }else{
-            return `${check} ${item.title}${date}`;
+            return `${check} ${item.title}${item.date}`;
           }
       })
       .join("\n");
