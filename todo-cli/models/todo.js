@@ -30,11 +30,7 @@ module.exports = (sequelize, DataTypes) => {
       console.log("Due Today");
       // FILL IN HERE
       const dt = await this.dueToday();
-      const dtd = dt.map((t) => {
-      const parts = t.displayableString().split(" ");
-      parts.pop(); // Remove the last element (date)
-      return parts.join(" ");
-    });
+      const dtd = dt.map((t) => t.displayableString());
       console.log(dtd.join("\n").trim());
 
       console.log("\n");
@@ -98,8 +94,11 @@ module.exports = (sequelize, DataTypes) => {
 
     displayableString() {
       let checkbox = this.completed ? "[x]" : "[ ]";
-      return `${this.id}. ${checkbox} ${this.title} ${this.dueDate}`;
-    }
+      const day = new Date(this.dueDate);
+      return day.getDate() === new Date().getDate()
+        ?` ${this.id}. ${checkbox} ${this.title}`.trim()
+        :` ${this.id}. ${checkbox} ${this.title} ${this.dueDate}`.trim();
+      }
   }
   Todo.init({
     title: DataTypes.STRING,
