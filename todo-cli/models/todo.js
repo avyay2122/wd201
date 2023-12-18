@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         .map((item) => {
           console.log(item.displayableString());
         })
-        .join("/n");
+        .join("\n");
 
       console.log(ods);
 
@@ -29,17 +29,15 @@ module.exports = (sequelize, DataTypes) => {
 
       console.log("Due Today");
       // FILL IN HERE
-      let today = await Todo.dueToday();
+      const dt = await this.dueToday();
+      const dtd = dt.map((t) => {
+      const parts = t.displayableString().split(" ");
+      parts.pop(); // Remove the last element (date)
+      return parts.join(" ");
+    });
+      console.log(dtd.join("\n").trim());
 
-      let ots = today
-        .map((item) => {
-          console.log(item.displayableString());
-        })
-        .join("\n");
-
-      console.log(ots);
-
-      // console.log("\n");
+      console.log("\n");
 
       console.log("Due Later");
       // FILL IN HERE
