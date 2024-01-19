@@ -4,18 +4,34 @@ const { Todo } = require("./models");
 const bodyParser = require("body-parser");
 const path = require("path");
 app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
 
 app.get("/", async (request, response) => {
-  const allTodos = await Todo.getTodos();
+  await Todo.getTodos();
   if (request.accepts("html")) {
+    const overdues = await Todo.overdue();
+    const todaydues = await Todo.todaydue();
+    const laterdues = await Todo.laterdue();
+    const comptodos = await Todo.completedtodos();
+    console.log(overdues, todaydues, laterdues, comptodos);
     response.render("index", {
-      allTodos,
+      overdues,
+      todaydues,
+      laterdues,
+      comptodos,
     });
   } else {
-    response.json({
-      allTodos,
+    const overdues = await Todo.overdue();
+    const todaydues = await Todo.todaydue();
+    const laterdues = await Todo.laterdue();
+    const comptodos = await Todo.completedtodos();
+    return response.json({
+      overdues,
+      todaydues,
+      laterdues,
+      comptodos,
     });
   }
 });
@@ -25,19 +41,37 @@ app.use(express.static(path.join(__dirname, "public")));
 //   response.send("Hello World");
 // });
 
-app.get("/todos", async function (_request, response) {
+// app.get("/todos", async function (_request, response) {
+//   console.log("Processing list of all Todos ...");
+//   // FILL IN YOUR CODE HERE
+//   try {
+//     const todos = await Todo.findAll();
+//     return response.json(todos);
+//   } catch (error) {
+//     console.log(error);
+//     return response.status(422).json(error);
+//   }
+//   // First, we have to query our PostgerSQL database using Sequelize to get list of all Todos.
+//   // Then, we have to respond with all Todos, like:
+//   // response.send(todos)
+// });
+app.get("/todos", async function (request, response) {
   console.log("Processing list of all Todos ...");
-  // FILL IN YOUR CODE HERE
   try {
-    const todos = await Todo.findAll();
-    return response.json(todos);
-  } catch (error) {
-    console.log(error);
-    return response.status(422).json(error);
+    const overdues = await Todo.overdue(request.user.id);
+    const todaydues = await Todo.todaydue(request.user.id);
+    const laterdues = await Todo.laterdue(request.user.id);
+    const comptodos = await Todo.completedtodos(request.user.id);
+    console.log(overdues, todaydues, laterdues, comptodos);
+    if (request.accepts("html")) {
+      response.render("todos", { overdues, todaydues, laterdues, comptodos });
+    } else {
+      return response.json({ overdues, todaydues, laterdues, comptodos });
+    }
+  } catch (err) {
+    console.log(err);
+    response.status(422).send(err);
   }
-  // First, we have to query our PostgerSQL database using Sequelize to get list of all Todos.
-  // Then, we have to respond with all Todos, like:
-  // response.send(todos)
 });
 
 app.get("/todos/:id", async function (request, response) {
@@ -52,8 +86,8 @@ app.get("/todos/:id", async function (request, response) {
 
 app.post("/todos", async function (request, response) {
   try {
-    const todo = await Todo.addTodo(request.body);
-    return response.json(todo);
+    await Todo.addTodo(request.body);
+    return response.redirect("/");
   } catch (error) {
     console.log(error);
     return response.status(422).json(error);
@@ -75,16 +109,10 @@ app.delete("/todos/:id", async function (request, response) {
   console.log("We have to delete a Todo with ID: ", request.params.id);
   // FILL IN YOUR CODE HERE
   try {
-    const deletetodo = await Todo.destroy({
-      where: { id: request.params.id },
-    });
-    if (deletetodo > 0) {
-      return response.send(true);
-    } else {
-      return response.send(false);
-    }
+    await Todo.remove(request.params.id);
+    console.log("--");
+    return response.json({ success: true });
   } catch (error) {
-    console.log(error);
     return response.status(422).json(error);
   }
 
