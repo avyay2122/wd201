@@ -20,6 +20,9 @@ module.exports = (sequelize, DataTypes) => {
     markAsCompleted() {
       return this.update({ completed: true });
     }
+    setCompletionStatus(params) {
+      return this.update({ completed: !params });
+    }
     static overdue() {
       return this.findAll({
         where: {

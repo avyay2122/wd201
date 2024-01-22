@@ -7,18 +7,27 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="./css/styles.css">
     <script>
-        function updateTodo(id){
-            fetch(`/todos/${id}/markAsCompleted`,{
-                method: "put",
-                headers: {"Content-Type":"application/json"},
-            })
-            .then((res) => {
-                if(res.ok){
-                    window.location.reload();
-                }
-            })
-            .catch((err) => console.error(err));
+        async function updateTodo(id, status) {
+        console.log("Function called with ID:", id, "and status:", status);
+        try {
+          const response = await fetch(`/todos/${id}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ completed: status }),
+          });
+      
+          if (response.ok) {
+            console.log("Todo item updated successfully");
+            window.location.reload();
+          } else {
+            console.error("Failed to update todo item");
+          }
+        } catch (error) {
+          console.error("Error:", error);
         }
+      }
         function deletetodos(id){
             fetch(`/todos/${id}`,{
                 method:"delete",
